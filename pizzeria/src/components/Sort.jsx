@@ -5,10 +5,10 @@ function Sort() {
   const [selected, setSelected] = useState(0);
   const listSort = ["популярности", "цене", "алфавиту"];
 
-const onClickListItem = (i) => {
-  setSelected(i);
-  setOpen(!open);
-}
+  const onClickListItem = (i) => {
+    setSelected(i);
+    setOpen(!open);
+  };
 
   return (
     <div className="sort">
