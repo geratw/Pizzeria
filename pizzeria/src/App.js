@@ -5,21 +5,23 @@ import Categories from "./components/Categories";
 import Sort from "./components/Sort";
 import PizzaComponent from "./components/PizzzaBlock";
 
+import pizzaz from "./assetc/pizzas.json";
+
 function App() {
   return (
     <div className="wrapper">
       <Header />
-      <div s="content">
-        <div s="container">
+      <div className="content">
+        <div className="container">
           <div className="content__top">
             <Categories />
             <Sort />
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-          <PizzaComponent title="Мексиканская" price="300"/>
-          <PizzaComponent title="Мексиканская" price= {300}/>
-          
+            {pizzaz.map((obj) => (
+              <PizzaComponent key={obj.id} {...obj}/>
+            ))}
           </div>
         </div>
       </div>
