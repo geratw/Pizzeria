@@ -1,7 +1,9 @@
 import logoSvg from "../assetc/img/pizza-logo.svg";
 import { Link } from "react-router-dom";
 
-function Header() {
+import Search from "./searchBlock";
+
+function Header({ searchValue, setSearchValue }) {
   return (
     <div className="header">
       <div className="container">
@@ -9,11 +11,12 @@ function Header() {
           <div className="header__logo">
             <img width="38" src={logoSvg} alt="Pizza logo" />
             <div>
-              <h1>React Pizza</h1>
+              <h1>Pizzeria Max</h1>
               <p>самая вкусная пицца во вселенной</p>
             </div>
           </div>
         </Link>
+        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>520 ₽</span>
