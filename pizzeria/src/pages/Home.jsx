@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import axios from "axios";
 import { setCategoriesId } from "../redux/slices/filterSlice";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -25,12 +25,12 @@ const Home = () => {
 
   React.useEffect(() => {
     setIsLoading(true);
-    fetch(
-      `https://6536cc68bb226bb85dd2a293.mockapi.io/items?${categoty}&sortBy=${sortBy}&order=desc`
-    )
-      .then((res) => res.json())
-      .then((arr) => {
-        setItems(arr);
+    axios
+      .get(
+        `https://6536cc68bb226bb85dd2a293.mockapi.io/items?${categoty}&sortBy=${sortBy}&order=desc`
+      )
+      .then((res) => {
+        setItems(res.data);
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
