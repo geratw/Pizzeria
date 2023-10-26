@@ -10,21 +10,19 @@ import { SearchContext } from "../App";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const categoriesId = useSelector((state) => state.filter.categoriesId);
+  const { categoriesId, sort } = useSelector((state) => state.filter);
+  const sortBy = sort.sortProperty;
 
   const { searchValue } = React.useContext(SearchContext);
   let [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [sortType, setSortType] = React.useState({
-    name: "популярности",
-    sortProperty: "rating",
-  });
 
   const onClickCategory = (id) => {
     dispatch(setCategoriesId(id));
   };
+
   const categoty = categoriesId > 0 ? `category=${categoriesId}` : "";
-  const sortBy = sortType.sortProperty;
+
   React.useEffect(() => {
     setIsLoading(true);
     fetch(
@@ -54,7 +52,7 @@ const Home = () => {
           value={categoriesId}
           onClickCategory={(id) => onClickCategory(id)}
         />
-        <Sort value={sortType} onClickSort={(id) => setSortType(id)} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items_main">{isLoading ? skeleton : pizzaz}</div>
