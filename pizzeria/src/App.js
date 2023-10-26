@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Cart from "./pages/Cart";
 
-export const SearchContext = React.createContext("");
+export const SearchContext = React.createContext();
 
 function App() {
   const [searchValue, setSearchValue] = React.useState("");
@@ -19,7 +19,7 @@ function App() {
           <div className="container"></div>
 
           <Routes>
-            <Route path="/" element={<Home searchValue={searchValue} />} />
+            <Route path="/" element={<Home />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
