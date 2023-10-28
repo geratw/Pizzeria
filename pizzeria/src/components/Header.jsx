@@ -5,7 +5,7 @@ import Search from "./searchBlock/Index";
 
 function Header() {
   return (
-    <div className="header">
+    <div className="header" >
       <div className="container">
         <Link to="/">
           <div className="header__logo">

@@ -1,15 +1,22 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { setCategoriesId } from "../redux/slices/filterSlice";
+import { setCategoriesId, setFilters } from "../redux/slices/filterSlice";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaComponent from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import { SearchContext } from "../App";
+import qs from "qs";
+import { useNavigate } from "react-router-dom";
+import { listSort } from "../components/Sort";
 
 const Home = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isSearch = React.useRef(false);
+  const isMonted = React.useRef(false);
+
   const { categoriesId, sort } = useSelector((state) => state.filter);
   const sortBy = sort.sortProperty;
 
@@ -21,20 +28,51 @@ const Home = () => {
     dispatch(setCategoriesId(id));
   };
 
-  const categoty = categoriesId > 0 ? `category=${categoriesId}` : "";
+  const category = categoriesId > 0 ? `category=${categoriesId}` : "";
 
-  React.useEffect(() => {
+  const fetchPizzrs = () => {
     setIsLoading(true);
     axios
       .get(
-        `https://6536cc68bb226bb85dd2a293.mockapi.io/items?${categoty}&sortBy=${sortBy}&order=desc`
+        `https://6536cc68bb226bb85dd2a293.mockapi.io/items?${category}&sortBy=${sortBy}&order=desc`
       )
       .then((res) => {
         setItems(res.data);
         setIsLoading(false);
       });
+  };
+
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+
+      const sort = listSort.find(
+        (obj) => obj.sortProperty === params.sortProperty
+      );
+      dispatch(setFilters({ ...params, sort }));
+      isSearch.current = true;
+    }
+  }, []);
+
+  React.useEffect(() => {
     window.scrollTo(0, 0);
-  }, [categoty, sortBy]);
+    if (!isSearch.current) {
+      fetchPizzrs();
+    }
+    isSearch.current = false;
+  }, [category, sortBy]);
+
+  React.useEffect(() => {
+    if (isMonted.current) {
+      const queryString = qs.stringify({
+        sortProperty: sort.sortProperty,
+        categoriesId,
+      });
+      navigate(`?${queryString}`);
+    }
+
+    isMonted.current = true;
+  }, [category, sortBy]);
 
   const skeleton = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />

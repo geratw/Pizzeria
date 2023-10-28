@@ -18,9 +18,13 @@ const filtesSlice = createSlice({
     setSort(state, action) {
       state.sort = action.payload;
     },
+    setFilters(state, action) {
+      state.sort = action.payload.sort;
+      state.categoriesId = Number(action.payload.categoriesId);
+    },
   },
 });
 
-export const { setCategoriesId, setSort } = filtesSlice.actions;
+export const { setCategoriesId, setSort, setFilters } = filtesSlice.actions;
 
 export default filtesSlice.reducer;

@@ -5,7 +5,7 @@ import debounce from "lodash.debounce";
 import { SearchContext } from "../../App";
 
 const Search = () => {
-  const { searchValue, setSearchValue } = React.useContext(SearchContext);
+  const {setSearchValue } = React.useContext(SearchContext);
   const [value, setValue] = React.useState("");
 
   const inputRef = React.useRef();
@@ -20,7 +20,7 @@ const Search = () => {
     debounce((str) => {
       setSearchValue(str);
     }, 500),
-    []
+    [setSearchValue]
   );
 
   const onChangeInput = (event) => {
