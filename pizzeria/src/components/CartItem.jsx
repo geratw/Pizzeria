@@ -6,6 +6,8 @@ import {
   removeItem,
   clearItem,
 } from "../redux/slices/cartSlice";
+
+
 const typeName = ["тонкое", "традиционное"];
 
 const CartItem = ({ id, title, type, price, imageUrl, count }) => {
@@ -26,7 +28,9 @@ const CartItem = ({ id, title, type, price, imageUrl, count }) => {
   return (
     <div className="cart__item">
       <div className="cart__item-img">
-        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+
+          <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+
       </div>
       <div className="cart__item-info">
         <h3>{title}</h3>

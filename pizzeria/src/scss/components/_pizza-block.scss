@@ -5,6 +5,8 @@
   text-align: center;
   margin-bottom: 65px;
 
+  transition: transform 0.2s, border-color 0.2s;
+
 
   &-wrapper {
     justify-content: center;
@@ -67,4 +69,9 @@
     line-height: 27px;
     letter-spacing: 0.015em;
   }
+}
+
+.pizza-block:hover {
+  transform: scale(1.1); /* Масштабирование элемента в 1.1 раза при наведении */
+  border-color: #333; /* Изменяем цвет рамки при наведении */
 }

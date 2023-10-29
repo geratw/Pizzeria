@@ -7,9 +7,8 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaComponent from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
-import { SearchContext } from "../App";
 import qs from "qs";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { listSort } from "../components/Sort";
 import { selectFilter } from "../redux/slices/cartSlice";
 
@@ -19,10 +18,8 @@ const Home = () => {
   const isSearch = React.useRef(false);
   const isMonted = React.useRef(false);
   const { item, status } = useSelector((state) => state.pizza);
-  const { categoriesId, sort } = useSelector(selectFilter);
+  const { categoriesId, sort, searchValue } = useSelector(selectFilter);
   const sortBy = sort.sortProperty;
-
-  const { searchValue } = React.useContext(SearchContext);
 
   const onClickCategory = (id) => {
     dispatch(setCategoriesId(id));
@@ -79,7 +76,7 @@ const Home = () => {
     .filter((obj) => {
       return obj.title.toLowerCase().includes(searchValue.toLowerCase());
     })
-    .map((obj) => <PizzaComponent key={obj.id} {...obj} />);
+    .map((obj) => <PizzaComponent {...obj} />);
 
   return (
     <>
