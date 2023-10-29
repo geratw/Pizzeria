@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSort } from "../redux/slices/filterSlice";
+import { selectFilter } from "../redux/slices/cartSlice";
 
 export const listSort = [
   { name: "популярности", sortProperty: "rating" },
@@ -10,7 +11,7 @@ export const listSort = [
 
 function Sort() {
   const dispatch = useDispatch();
-  const sort = useSelector((state) => state.filter.sort);
+  const sort = useSelector(selectFilter);
   const sortRef = React.useRef();
 
   const [open, setOpen] = useState(false);
@@ -27,7 +28,7 @@ function Sort() {
         setOpen(false);
       }
     };
-    document.body.addEventListener("click", clikOutside); 
+    document.body.addEventListener("click", clikOutside);
     return () => {
       document.body.removeEventListener("click", clikOutside);
     };

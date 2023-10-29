@@ -31,17 +31,44 @@ const cartSlice = createSlice({
       );
       if (findItem) {
         findItem.count--;
+        state.countItems--;
+
+        state.totalPrice -= findItem.price;
+        if (findItem.count <= 0) {
+          const removedItem = state.items.find(
+            (item) => item.id === action.payload.id
+          );
+          if (removedItem) {
+            state.items = state.items.filter(
+              (obj) => obj.id !== action.payload.id
+            );
+          }
+        }
       }
     },
     removeItem(state, action) {
-      state.items = state.items.filter((obj) => obj.id === action.payload);
+      const removedItem = state.items.find(
+        (item) => item.id === action.payload.id
+      );
+      if (removedItem) {
+        state.totalPrice -= removedItem.price * removedItem.count;
+        state.countItems -= removedItem.count;
+        state.items = state.items.filter((obj) => obj.id !== action.payload.id);
+      }
     },
     clearItem(state) {
       state.items = [];
+      state.totalPrice = 0;
+      state.countItems = 0;
     },
   },
 });
 
-export const { addItem, removeItem,minusItem,  clearItem } = cartSlice.actions;
+export const selectCart = (state) => state.cart;
+export const selectFilter = (state) => state.filter;
+export const selectCartItemById = (id) => (state) =>
+  state.cart.items.find((item) => item.id === id);
+
+export const { addItem, removeItem, minusItem, clearItem } = cartSlice.actions;
 
 export default cartSlice.reducer;

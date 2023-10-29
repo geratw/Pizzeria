@@ -1,6 +1,12 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addItem, minusItem, removeItem } from "../redux/slices/cartSlice";
+import {
+  addItem,
+  minusItem,
+  removeItem,
+  clearItem,
+} from "../redux/slices/cartSlice";
+const typeName = ["тонкое", "традиционное"];
 
 const CartItem = ({ id, title, type, price, imageUrl, count }) => {
   const dispatch = useDispatch();
@@ -14,9 +20,7 @@ const CartItem = ({ id, title, type, price, imageUrl, count }) => {
   };
 
   const onClickRemove = () => {
-    if (window.confirm("Are you sure you want to remove")) {
-      dispatch(removeItem({ id }));
-    }
+    dispatch(removeItem({ id }));
   };
 
   return (
@@ -26,7 +30,7 @@ const CartItem = ({ id, title, type, price, imageUrl, count }) => {
       </div>
       <div className="cart__item-info">
         <h3>{title}</h3>
-        <p>{type}, 26 см.</p>
+        <p>{typeName[type]}, 26 см.</p>
       </div>
       <div className="cart__item-count">
         <div
@@ -77,7 +81,10 @@ const CartItem = ({ id, title, type, price, imageUrl, count }) => {
         <b>{price * count} ₽</b>
       </div>
       <div className="cart__item-remove">
-        <div onClick={onClickRemove} className="button button--outline button--circle">
+        <div
+          onClick={onClickRemove}
+          className="button button--outline button--circle"
+        >
           <svg
             width="10"
             height="10"

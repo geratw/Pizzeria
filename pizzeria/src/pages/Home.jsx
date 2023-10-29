@@ -1,7 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+
 import { setCategoriesId, setFilters } from "../redux/slices/filterSlice";
+import { axiosPizza } from "../redux/slices/pizzaSlice";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaComponent from "../components/PizzaBlock";
@@ -10,19 +11,18 @@ import { SearchContext } from "../App";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 import { listSort } from "../components/Sort";
+import { selectFilter } from "../redux/slices/cartSlice";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
   const isMonted = React.useRef(false);
-
-  const { categoriesId, sort } = useSelector((state) => state.filter);
+  const { item, status } = useSelector((state) => state.pizza);
+  const { categoriesId, sort } = useSelector(selectFilter);
   const sortBy = sort.sortProperty;
 
   const { searchValue } = React.useContext(SearchContext);
-  let [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
 
   const onClickCategory = (id) => {
     dispatch(setCategoriesId(id));
@@ -30,16 +30,14 @@ const Home = () => {
 
   const category = categoriesId > 0 ? `category=${categoriesId}` : "";
 
-  const fetchPizzrs = () => {
-    setIsLoading(true);
-    axios
-      .get(
-        `https://6536cc68bb226bb85dd2a293.mockapi.io/items?${category}&sortBy=${sortBy}&order=desc`
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+  const fetchPizzrs = async () => {
+    dispatch(
+      axiosPizza({
+        category,
+        sortBy,
+      })
+    );
+    console.log(item);
   };
 
   React.useEffect(() => {
@@ -77,7 +75,7 @@ const Home = () => {
   const skeleton = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
   ));
-  const pizzaz = items
+  const pizzaz = item
     .filter((obj) => {
       return obj.title.toLowerCase().includes(searchValue.toLowerCase());
     })
@@ -93,7 +91,16 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items_main">{isLoading ? skeleton : pizzaz}</div>
+      {status === "error" ? (
+        <div className="content__error">
+          <h2>Произошла ошибка</h2>
+          <p>Не удалось получить пиццы.</p>
+        </div>
+      ) : (
+        <div className="content__items_main">
+          {status === "loading" ? skeleton : pizzaz}
+        </div>
+      )}
     </>
   );
 };
