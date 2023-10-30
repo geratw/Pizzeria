@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@types/lodash.debounce": "^4.0.8",
     "react-content-loader": "^6.2.1"
   }
 }
