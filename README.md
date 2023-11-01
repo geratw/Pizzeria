@@ -1,4 +1,4 @@
-# Pizzia
+# Pizzeria
 ## 🛠 Технологии:
 - **ReactJS 18**
 - **TypeScript**
