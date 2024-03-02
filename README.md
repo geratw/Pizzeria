@@ -10,4 +10,4 @@
 - React Content Loader (скелетон)
 - Lodash.Debounce
 
-Результат [pizzeria](geratw.github.io/Pizzeria/)
+Результат [pizzeria](https://geratw.github.io/Pizzeria/)
